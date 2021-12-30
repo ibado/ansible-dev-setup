@@ -12,4 +12,4 @@
   - name: install snaps
     snap:
       name:
-        - nvim classic
+        - nvim --classic
