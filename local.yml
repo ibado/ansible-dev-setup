@@ -1,0 +1,15 @@
+---
+- hosts: localhost
+  connection: local
+  become: true
+
+  tasks:
+  - name: install packages
+    package:
+      name:
+        - htop
+        - terminator
+  - name: install snaps
+    snap:
+      name:
+        - nvim classic
