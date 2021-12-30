@@ -11,5 +11,5 @@
         - terminator
   - name: install snaps
     snap:
-      name:
-        - nvim
+      name: nvim
+      classic: yes
