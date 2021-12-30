@@ -15,10 +15,9 @@
 
   - name: install snaps
     snap:
-      name: nvim
-      classic: yes
-      name: node
-      classic: yes
-      name: kotlin
+      name: 
+        - nvim
+        - node
+        - kotlin
       classic: yes
 
