@@ -9,7 +9,16 @@
       name:
         - htop
         - terminator
+
+  - name: install rust
+    shell: curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+
   - name: install snaps
     snap:
       name: nvim
       classic: yes
+      name: node
+      classic: yes
+      name: kotlin
+      classic: yes
+
