@@ -9,9 +9,7 @@
       name:
         - htop
         - terminator
-
-  - name: install rust
-    shell: curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+        - httpie
 
   - name: install snaps
     snap:
@@ -19,5 +17,11 @@
         - nvim
         - node
         - kotlin
+        - intellij-idea-community
       classic: yes
+
+  - name: Install Rust
+    shell: curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+    args:
+      warn: no
 
