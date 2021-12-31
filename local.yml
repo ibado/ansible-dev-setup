@@ -10,6 +10,8 @@
         - htop
         - terminator
         - httpie
+        - exa
+        - bat
 
   - name: install snaps
     snap:
@@ -20,8 +22,32 @@
         - intellij-idea-community
       classic: yes
 
+  - name: Download Rust installer
+    get_url:
+      url: https://sh.rustup.rs
+      dest: /tmp/rustup.sh
+      mode: 0755
+
   - name: Install Rust
-    shell: curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
-    args:
-      warn: no
+    shell: /tmp/rustup.sh -y
+
+  - name: Setup git prompt
+    git:
+      repo: 'https://github.com/magicmonty/bash-git-prompt.git'
+      dest: /home/ibado/.bash-git-prompt
+      depth: 1
+
+  - name: Complete basic .bashrc
+    blockinfile:
+      path: /home/ibado/.bashrc
+      block: |
+        export EDITOR=nvim
+        alias vim=nvim
+        alias ls=exa
+        alias cat=batcat
+
+        if [ -f "$HOME/.bash-git-prompt/gitprompt.sh" ]; then
+          GIT_PROMPT_ONLY_IN_REPO=1
+          source $HOME/.bash-git-prompt/gitprompt.sh
+        fi
 
