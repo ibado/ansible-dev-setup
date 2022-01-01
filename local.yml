@@ -11,8 +11,11 @@
         - httpie
         - exa
         - bat
+        - ripgrep
+        - tree
         - docker.io
         - docker-compose
+    become: true
 
   - name: install snap packages
     snap:
@@ -22,10 +25,12 @@
         - kotlin
         - intellij-idea-community
       classic: yes
+    become: true
 
   - name: Create Docker group
     group:
       name: docker
+    become: true
 
   - name: Add docker group to $USER
     user:
@@ -39,6 +44,7 @@
       url: https://sh.rustup.rs
       dest: /tmp/rustup.sh
       mode: 0755
+    become: true
 
   - name: Install Rust
     shell: /tmp/rustup.sh -y
@@ -64,3 +70,15 @@
           source $HOME/.bash-git-prompt/gitprompt.sh
         fi
 
+  - name: Clone my vim config
+    git:
+      repo: git@github.com:ibado/myvimrc.git
+      dest: /home/{{ ansible_user_id }}/.myvimrc
+
+  - name: Setup my vim config
+    shell: |
+      mkdir -p /home/{{ ansible_user_id }}/.config/nvim/
+      ln -s /home/{{ ansible_user_id }}/.myvimrc/init.vim /home/{{ ansible_user_id }}/.config/nvim/init.vim
+      curl -fLo /home/{{ ansible_user_id }}/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    args:
+      warn: no
