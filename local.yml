@@ -1,19 +1,20 @@
 ---
 - hosts: localhost
   connection: local
-  become: true
 
   tasks:
-  - name: install packages
-    package:
+  - name: install apt packages
+    apt:
       name:
         - htop
         - terminator
         - httpie
         - exa
         - bat
+        - docker.io
+        - docker-compose
 
-  - name: install snaps
+  - name: install snap packages
     snap:
       name: 
         - nvim
@@ -21,6 +22,17 @@
         - kotlin
         - intellij-idea-community
       classic: yes
+
+  - name: Create Docker group
+    group:
+      name: docker
+
+  - name: Add docker group to $USER
+    user:
+      name: "{{ ansible_user_id }}"
+      groups: docker
+      append: yes
+    become: true
 
   - name: Download Rust installer
     get_url:
@@ -34,12 +46,13 @@
   - name: Setup git prompt
     git:
       repo: 'https://github.com/magicmonty/bash-git-prompt.git'
-      dest: /home/ibado/.bash-git-prompt
+      dest: /home/{{ ansible_user_id }}/.bash-git-prompt
       depth: 1
+    become: true
 
   - name: Complete basic .bashrc
     blockinfile:
-      path: /home/ibado/.bashrc
+      path: /home/{{ ansible_user_id }}/.bashrc
       block: |
         export EDITOR=nvim
         alias vim=nvim
