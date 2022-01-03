@@ -12,7 +12,9 @@
         - exa
         - bat
         - ripgrep
+        - xclip
         - tree
+        - g++
         - docker.io
         - docker-compose
     become: true
@@ -21,9 +23,13 @@
     snap:
       name: 
         - nvim
-        - node
+        # - node // todo: install it from source
         - kotlin
         - intellij-idea-community
+        - webstorm
+        - android-studio
+        - brave
+        - slack
       classic: yes
     become: true
 
